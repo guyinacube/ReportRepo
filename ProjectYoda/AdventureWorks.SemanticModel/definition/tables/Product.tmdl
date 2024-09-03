@@ -1,0 +1,106 @@
+table Product
+	lineageTag: 6037da56-845c-4690-897a-2f36c9d7aeb3
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 533122a3-ce18-489d-a9ea-fe62df03009d
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSubcategoryKey
+		dataType: string
+		isHidden
+		lineageTag: a2dd40c8-e120-434f-a87d-92bf5ca41f38
+		summarizeBy: none
+		sourceColumn: ProductSubcategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		isHidden
+		lineageTag: 49098ad3-fdb3-4909-a775-f1ba5e2e3278
+		summarizeBy: none
+		sourceColumn: Product Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: 5b2bb2dc-299e-4362-aa89-4d8e3041310e
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory =
+			
+			VAR subcat =
+			    RELATED ( 'Subcategory'[Subcategory Name])
+			RETURN
+			    IF ( ISBLANK ( subcat ), "NA", subcat )
+		dataType: string
+		isHidden
+		lineageTag: e5d6f68f-bbcd-4041-b981-74c2074e60c2
+		summarizeBy: none
+		isDataTypeInferred
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category =
+			
+			VAR cat =
+			    RELATED ( 'Product Category'[Product Category] )
+			RETURN
+			    IF ( ISBLANK ( cat ), "NA", cat )
+		dataType: string
+		isHidden
+		lineageTag: d7e7c3e5-139c-4fac-b226-6665161d3f17
+		summarizeBy: none
+		isDataTypeInferred
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Category Hierarchy'
+		lineageTag: 0a7446ba-7a3e-4ce0-899a-e7b3a9f95498
+
+		level Category
+			lineageTag: 620e0091-a925-4d68-aa95-d273f361e983
+			column: Category
+
+		level Subcategory
+			lineageTag: fceaa43c-9ff7-47ce-95f7-6a18ac4d9c73
+			column: Subcategory
+
+		level 'Product Name'
+			lineageTag: fced05ec-3d00-438e-9e71-24bb0d6dfee6
+			column: 'Product Name'
+
+	partition Product-df5c4016-c6eb-4e90-9f39-b91c6405f418 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(excelfilename), null, true),
+				    pbi_Product_Sheet = Source{[Item="pbi_Product",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(pbi_Product_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductKey", Int64.Type}, {"ProductSubcategoryKey", type any}, {"EnglishProductName", type text}, {"Color", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"EnglishProductName", "Product Name"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,141 @@
+table Calendar
+	lineageTag: 4ab781bd-6115-4d1f-a5bb-aab3d3e8cbd4
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: General Date
+		lineageTag: de3dedce-ba09-4915-9b7b-5a608458a4cd
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 29410f49-5e71-4433-87a5-dc4d9714866f
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 71a13675-2b20-471f-aa76-635e9334f27d
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [MonthNumber]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: a8f745e3-fb63-4f41-8b83-42fa7b5c8699
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Month]
+		sortByColumn: MonthNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 3d0699da-be98-4b99-9e61-6126b4cdf309
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Quarter]
+		sortByColumn: QuaterNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuaterNumber
+		dataType: string
+		isHidden
+		lineageTag: 725bdb06-0134-4207-9b1c-c370636e109c
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [QuaterNumber]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthYearNumber
+		dataType: string
+		isHidden
+		lineageTag: c6167160-8997-4eeb-a91a-a208b3ac336c
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [MonthYearNumber]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year'
+		dataType: string
+		lineageTag: f9954862-4190-4dce-b11e-8285dc091df3
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Month Year]
+		sortByColumn: MonthYearNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Calendar Hierarchy'
+		lineageTag: 096caa70-da14-4075-b693-10c1a40025d6
+
+		level Year
+			lineageTag: 23cc6b2e-18d9-4afd-8dea-4abd2f461552
+			column: Year
+
+		level Quarter
+			lineageTag: 91b4eae7-fba5-4419-a51a-0ff533b5e643
+			column: Quarter
+
+		level Month
+			lineageTag: 4b7a6313-a583-4e6f-b8ca-839fd566daf3
+			column: Month
+
+	partition Calendar-85d005fc-1aba-4b1c-b6ff-dd641cc33ae7 = calculated
+		mode: import
+		source =
+				
+				VAR _calendar =
+				    CALENDAR ( "1/1/2011", "12/31/2021" )
+				RETURN
+				    ADDCOLUMNS (
+				        _calendar,
+				        "Year", YEAR ( [Date] ),
+				        "MonthNumber", MONTH ( [Date] ),
+				        "Month", FORMAT ( [Date], "mmmm" ),
+				        "Quarter", "QTR " & FORMAT ( [Date], "Q" ),
+				        "QuaterNumber", FORMAT ( [Date], "Q" ),
+				        "MonthYearNumber", FORMAT([Date], "yy mm"),
+				        "Month Year", FORMAT([Date], "mmm yyyy")
+				    )
+
+	annotation PBI_Id = c5a2bc476cbb454a850f6cda7ef2d3f5
+

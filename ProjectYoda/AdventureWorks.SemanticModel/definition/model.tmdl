@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBIDesktopVersion = 2.132.1053.0 (24.08)
+
+annotation PBI_QueryOrder = ["Subcategory","Geography","Customer","Employee","Internet Sales","Product","Product Category","Sales Territory","csvfilename","excelfilename","Data Refresh"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Subcategory
+ref table Geography
+ref table Customer
+ref table Employee
+ref table 'Internet Sales'
+ref table Product
+ref table 'Product Category'
+ref table 'Sales Territory'
+ref table 'Data Refresh'
+ref table Calendar
+
+ref cultureInfo en-US
+

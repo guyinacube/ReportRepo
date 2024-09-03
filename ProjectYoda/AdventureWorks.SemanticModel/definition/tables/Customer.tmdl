@@ -1,0 +1,114 @@
+table Customer
+	lineageTag: af87613d-e89f-4941-bf07-c7198960753e
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4e406586-dcef-4fac-b22a-cb7fbbecd4fd
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Name'
+		dataType: string
+		isHidden
+		lineageTag: f1a1b116-7327-4137-b015-6d003dd07dc2
+		summarizeBy: none
+		sourceColumn: First Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Middle Name'
+		dataType: string
+		isHidden
+		lineageTag: eeb56de7-d8a8-4c89-bbaa-a32c9a4c47ea
+		summarizeBy: none
+		sourceColumn: Middle Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Name'
+		dataType: string
+		isHidden
+		lineageTag: d2dd1a02-1755-4812-b5df-ec1beea4ead6
+		summarizeBy: none
+		sourceColumn: Last Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c09bd794-d360-4e9c-987f-b54127282d4d
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EmailAddress
+		dataType: string
+		lineageTag: 8a321b31-2354-437c-9de5-114822afffe4
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeographyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e1e47ad3-0f30-4913-9167-f9b86cc85145
+		summarizeBy: none
+		sourceColumn: GeographyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Full Name'
+		dataType: string
+		lineageTag: 075ffa6b-0ea9-46fd-8c0a-e64bc32dbaab
+		summarizeBy: none
+		sourceColumn: Full Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Gender'
+		dataType: string
+		lineageTag: 59c1dd80-553e-4c04-a4bb-5cb9963ec122
+		summarizeBy: none
+		sourceColumn: Customer Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer-0b2563b2-bf23-4b85-8cb7-31164203f10b = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(excelfilename), null, true),
+				    pbi_Customer_Sheet = Source{[Item="pbi_Customer",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(pbi_Customer_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerKey", Int64.Type}, {"FirstName", type text}, {"MiddleName", type text}, {"LastName", type text}, {"BirthDate", type date}, {"Gender", type text}, {"EmailAddress", type text}, {"GeographyKey", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"FirstName", "First Name"}, {"MiddleName", "Middle Name"}, {"LastName", "Last Name"}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Renamed Columns", "Merged", each Text.Combine({[First Name], " ", [Middle Name], " ", [Last Name]}), type text),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Inserted Merged Column",{{"Merged", "Full Name"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns1"," NULL "," ",Replacer.ReplaceText,{"Full Name"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value", "Customer Gender", each if [Gender] = "F" then "Female" else if [Gender] = "M" then "Male" else "Not Provided"),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column",{"Gender"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

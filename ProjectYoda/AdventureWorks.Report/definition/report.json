@@ -1,0 +1,185 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.1.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY21SU03",
+      "reportVersionAtImport": "5.19",
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "GuyInACube12625962141146108.json",
+      "reportVersionAtImport": "5.19",
+      "type": "RegisteredResources"
+    }
+  },
+  "layoutOptimization": "None",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filter7a042770566039a37514",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales Territory"
+              }
+            },
+            "Property": "Sales Country"
+          }
+        },
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "s",
+              "Entity": "Sales Territory",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "s"
+                          }
+                        },
+                        "Property": "Sales Country"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'United States'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "Aquarium1442671919391"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY21SU03",
+          "path": "BaseThemes/CY21SU03.json",
+          "type": "BaseTheme"
+        },
+        {
+          "name": "usa.states.topo",
+          "path": "Shapemaps/usa.states.topo.json",
+          "type": "ShapeMap"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "GIAC_Background8641736636415225.png",
+          "path": "GIAC_Background8641736636415225.png",
+          "type": "Image"
+        },
+        {
+          "name": "GuyInACube12625962141146108.json",
+          "path": "GuyInACube12625962141146108.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "GIAC_Background_-_State_Detail0858637461031484.png",
+          "path": "GIAC_Background_-_State_Detail0858637461031484.png",
+          "type": "Image"
+        },
+        {
+          "name": "Guide_Overlay8925835831951066.png",
+          "path": "Guide_Overlay8925835831951066.png",
+          "type": "Image"
+        }
+      ]
+    },
+    {
+      "name": "Aquarium1442671919391",
+      "type": "CustomVisual",
+      "items": [
+        {
+          "name": "resources/Aquarium1442671919391.pbiviz.json",
+          "path": "Aquarium1442671919391.pbiviz.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    },
+    {
+      "name": "PBI_CV_81BBAD08_3ADD_466C_8819_9FACA21A6B8F",
+      "type": "CustomVisual",
+      "items": [
+        {
+          "name": "PBI_CV_81BBAD08_3ADD_466C_8819_9FACA21A6B8F.pbiviz.json",
+          "path": "PBI_CV_81BBAD08_3ADD_466C_8819_9FACA21A6B8F.pbiviz.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "allowInlineExploration": true,
+    "useEnhancedTooltips": true,
+    "useScaledTooltips": true
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": false,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isFieldWellButtonEnabled": false,
+    "isApplyAllButtonEnabled": false
+  }
+}

@@ -1,0 +1,37 @@
+relationship 162359b9-d67f-41e3-a597-af66dbecc9e3
+	fromColumn: Subcategory.ProductCategoryKey
+	toColumn: 'Product Category'.ProductCategoryKey
+
+relationship b9e2d177-e829-4097-adb8-18c27b9a033b
+	fromColumn: Customer.GeographyKey
+	toColumn: Geography.'Geography Key'
+
+relationship c8a2dd2b-6760-4838-a94f-beeba925697f
+	fromColumn: 'Internet Sales'.CustomerKey
+	toColumn: Customer.CustomerKey
+
+relationship 0af770c8-0818-4589-ab53-6c511f0fb9af
+	fromColumn: Employee.SalesTerritoryKey
+	toColumn: 'Sales Territory'.SalesTerritoryKey
+
+relationship 6032b348-0cb4-46bc-a556-cf9989f6e4f8
+	fromColumn: 'Internet Sales'.SalesTerritoryKey
+	toColumn: 'Sales Territory'.SalesTerritoryKey
+
+relationship 6c03cc1c-b7fc-40cd-906e-537efa6610dd
+	fromColumn: 'Internet Sales'.ProductKey
+	toColumn: Product.ProductKey
+
+relationship 9ce5202b-3c67-45b0-8f8d-54a41b6c554b
+	fromColumn: Product.ProductSubcategoryKey
+	toColumn: Subcategory.ProductSubcategoryKey
+
+relationship 5f32c07b-a640-441b-a5bf-6ad24232a045
+	fromColumn: 'Internet Sales'.'Order Date'
+	toColumn: Calendar.Date
+
+relationship 0656333f-3700-4d6c-8af6-3af5538365bb
+	isActive: false
+	fromColumn: 'Internet Sales'.'Ship Date'
+	toColumn: Calendar.Date
+

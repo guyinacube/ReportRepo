@@ -1,0 +1,43 @@
+table 'Product Category'
+	isHidden
+	lineageTag: 6e677499-eaae-4359-99fc-0cbca971624d
+
+	column ProductCategoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5b5ac92e-313f-40f4-89bc-7c9bf55c9970
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Category'
+		dataType: string
+		isHidden
+		lineageTag: 8377ffff-c55d-4590-91cb-cce8ee3cb179
+		summarizeBy: none
+		sourceColumn: Product Category
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Category-7f90719d-3235-4b7d-9f6b-35e87b3dd396' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(excelfilename), null, true),
+				    pbi_ProductCategory_Sheet = Source{[Item="pbi_ProductCategory",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(pbi_ProductCategory_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductCategoryKey", Int64.Type}, {"EnglishProductCategoryName", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"EnglishProductCategoryName", "Product Category"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

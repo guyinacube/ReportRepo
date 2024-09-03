@@ -1,0 +1,109 @@
+table Employee
+	lineageTag: 63d92364-bb16-4551-afcc-e470e8de6d1b
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f01d55d8-3228-42b4-a476-5956f1115f93
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column ParentEmployeeKey
+		dataType: string
+		isHidden
+		lineageTag: fe2fc6fe-4720-4499-9a1b-e6bbf5cddc43
+		summarizeBy: none
+		sourceColumn: ParentEmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 441c36e2-493f-443f-a50c-15bda6c15285
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Name'
+		dataType: string
+		lineageTag: 57dc3f15-81cc-486d-a607-b505bc37d11a
+		summarizeBy: none
+		sourceColumn: First Name
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Name'
+		dataType: string
+		lineageTag: 7611d30e-b691-490a-9a1a-8acf275047fa
+		summarizeBy: none
+		sourceColumn: Last Name
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Middle Name'
+		dataType: string
+		lineageTag: 14a4c543-e684-4a62-b475-7838a85e7913
+		summarizeBy: none
+		sourceColumn: Middle Name
+
+		changedProperty = DisplayFolder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: d33a23ba-7f8e-4266-840e-b253d4c3c2ba
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoginID
+		dataType: string
+		isHidden
+		lineageTag: 9c77b078-1cdb-4785-93ac-df6041febf9c
+		summarizeBy: none
+		sourceColumn: LoginID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmailAddress
+		dataType: string
+		lineageTag: d1c5a1cd-5d69-4631-b9f1-5d40f597b8ed
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Employee-4f2c7ca3-5897-4479-af3b-c436e4398b2e = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(excelfilename), null, true),
+				    pbi_Employee_Sheet = Source{[Item="pbi_Employee",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(pbi_Employee_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"EmployeeKey", Int64.Type}, {"ParentEmployeeKey", type any}, {"SalesTerritoryKey", Int64.Type}, {"FirstName", type text}, {"LastName", type text}, {"MiddleName", type text}, {"Title", type text}, {"LoginID", type text}, {"EmailAddress", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"FirstName", "First Name"}, {"LastName", "Last Name"}, {"MiddleName", "Middle Name"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

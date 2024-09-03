@@ -1,0 +1,56 @@
+table Subcategory
+	isHidden
+	lineageTag: c34ff48b-daba-4d70-8453-60c0b531fc3e
+
+	column ProductSubcategoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a6b94dec-45e4-4ce7-bb1b-472531cd0312
+		summarizeBy: none
+		sourceColumn: ProductSubcategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 517dda34-2a80-4282-9a26-9aa8841eb357
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Subcategory Name'
+		dataType: string
+		isHidden
+		lineageTag: 06f57138-2434-44ab-a5e3-1479943b2a23
+		summarizeBy: none
+		sourceColumn: Subcategory Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Subcategory-8566ccd1-050b-4321-93ec-f27bc72dc1f8 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(csvfilename),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductSubcategoryKey", Int64.Type}, {"ProductCategoryKey", Int64.Type}, {"EnglishProductSubcategoryName", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"EnglishProductSubcategoryName", "Subcategory Name"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

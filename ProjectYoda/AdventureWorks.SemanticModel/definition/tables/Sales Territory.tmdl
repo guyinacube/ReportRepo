@@ -1,0 +1,68 @@
+table 'Sales Territory'
+	lineageTag: c81784c0-76dc-4211-a737-907b7f77e73d
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5b68ee47-e958-425b-a740-62e674744b57
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Region'
+		dataType: string
+		lineageTag: 970750fe-7584-4e40-a17e-11fd90f22202
+		summarizeBy: none
+		sourceColumn: Sales Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Country'
+		dataType: string
+		lineageTag: f1373e2d-f687-47ea-a4ba-15c6576c390d
+		dataCategory: County
+		summarizeBy: none
+		sourceColumn: Sales Country
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Continent'
+		dataType: string
+		lineageTag: f0edaaaf-8980-48c3-9cf0-e7974b8299df
+		dataCategory: Continent
+		summarizeBy: none
+		sourceColumn: Sales Continent
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlagUrl
+		dataType: string
+		lineageTag: 023bf422-dadc-44cf-bfde-db253bdaf5c4
+		summarizeBy: none
+		sourceColumn: FlagUrl
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Sales Territory-8f948595-8515-4382-a6f2-79b8676d8f22' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(excelfilename), null, true),
+				    pbi_SalesTerritory_Sheet = Source{[Item="pbi_SalesTerritory",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(pbi_SalesTerritory_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesTerritoryKey", Int64.Type}, {"SalesTerritoryAlternateKey", Int64.Type}, {"SalesTerritoryRegion", type text}, {"SalesTerritoryCountry", type text}, {"SalesTerritoryGroup", type text}, {"FlagUrl", type text}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"SalesTerritoryKey", "SalesTerritoryRegion", "SalesTerritoryCountry", "SalesTerritoryGroup", "FlagUrl"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"SalesTerritoryRegion", "Sales Region"}, {"SalesTerritoryCountry", "Sales Country"}, {"SalesTerritoryGroup", "Sales Continent"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

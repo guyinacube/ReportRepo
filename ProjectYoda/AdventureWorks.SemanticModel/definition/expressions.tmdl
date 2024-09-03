@@ -1,0 +1,12 @@
+expression csvfilename = "C:\GIAC\Data\csv\Subcategory.csv" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 8f11b67f-53a8-4d0a-afb6-10cd69e0ba4e
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression excelfilename = "C:\GIAC\Data\Excel\AdventureWorks.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 5d1d1f7c-7c26-4491-b765-4408f04919c3
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,279 @@
+table 'Internet Sales'
+	lineageTag: 78519f60-4a09-4863-b4e3-96788132ec4e
+
+	measure 'Total Sales Amount' = SUMX('Internet Sales', 'Internet Sales'[Freight]+'Internet Sales'[Tax Amount]+'Internet Sales'[Sales Amount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 6bb9518a-6cc5-4ac3-a3e8-076d86b9d2d3
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Sales YTD' =
+			
+			CALCULATE([Total Sales Amount], DATESYTD('Calendar'[Date]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: da0b0ed8-2ba2-41aa-aba0-790b5d533abe
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Total Shipped Sales Amount' =
+			
+			CALCULATE([Total Sales Amount],
+			USERELATIONSHIP('Internet Sales'[Ship Date], 'Calendar'[Date]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a389fcbd-75d6-481e-a6b3-dde9869ded41
+
+		changedProperty = FormatString
+
+		changedProperty = DisplayFolder
+
+	measure 'Tooltip Value Color' =
+			
+			IF (
+			    (CALCULATE ( [Total Sales Amount], ALL ( 'Calendar' ) ) / 162.5) > [Total Sales Amount],
+			    2,
+			    1
+			)
+		formatString: 0
+		lineageTag: 0de04468-c36e-4ddd-9644-11bbe49ab67e
+
+	measure 'Head Pic' = ```
+			
+			IF (
+			    [Tooltip Value Color] = 1,
+			    "https://guyinacube.com/wp-content/uploads/2021/03/Adam.png",
+			    "https://guyinacube.com/wp-content/uploads/2021/03/Patrick.png"
+			)
+			
+			```
+		lineageTag: 0dc2828f-9454-40ac-8fed-b9979232234b
+		dataCategory: ImageUrl
+
+		changedProperty = DataCategory
+
+	measure 'PoP Sales Change' =
+			
+			VAR currentsales = [Total Sales Amount]
+			VAR pysales = [Total Sales SPLY]
+			RETURN
+			    IF ( AND ( currentsales <> 0, pysales <> 0 ), currentsales - pysales )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 576f570f-85ef-4d79-82b1-7faa2f7248b4
+
+		changedProperty = FormatString
+
+	measure 'PoP % Change' =
+			
+			DIVIDE ( [PoP Sales Change], [Total Sales SPLY], BLANK () )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3328a695-996d-443b-b478-ff316028453b
+
+		changedProperty = FormatString
+
+	measure 'Total Freight' =
+			
+			SUM ( 'Internet Sales'[Freight] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 3a476f6e-4d7c-41fd-a768-ead33102b2dc
+
+		changedProperty = FormatString
+
+	measure 'Total Quantity' =
+			
+			SUM ( 'Internet Sales'[Order Quantity] )
+		formatString: #,0
+		lineageTag: 7718976f-0887-46b9-879d-e344bd924474
+
+		changedProperty = FormatString
+
+	measure 'Total Sales SPLY' =
+			
+			VAR _hassalesdata =
+			    NOT ( ISBLANK ( [Total Sales Amount] ) )
+			RETURN
+			    IF (
+			        _hassalesdata,
+			        CALCULATE ( [Total Sales Amount], SAMEPERIODLASTYEAR ( 'Calendar'[Date] ) ),
+			        BLANK ()
+			    )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: bd1cb2ce-80b3-4b35-9a2a-4a8c1592d991
+
+		changedProperty = FormatString
+
+	measure 'Lower Bound' = 0
+		formatString: 0
+		lineageTag: 4ba8ebe1-1de4-4ca4-8063-85213f434eac
+
+	measure '7 Day Average' = AVERAGEX(KEEPFILTERS(VALUES('Calendar'[Date])), CALCULATE('Internet Sales'[Total Sales Amount], KEEPFILTERS('Calendar'[Date] > NOW() - 7)))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 2a8d8e44-075f-4ff6-b3c9-330066384354
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "NLtoDAX"
+				}
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure TestCoalesce =
+			
+			
+			COALESCE(sum('Internet Sales'[Sales Amount]),0)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5764b40d-3ace-4e27-8d6c-0368d5b5d398
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure TestIsBlank =
+			
+			VAR mysum = SUM('Internet Sales'[Sales Amount])
+			RETURN
+			IF(
+			    ISBLANK(mysum),
+			    0,
+			    mysum
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: cb6d4208-3a23-46ee-9681-b52db45b39af
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4c7db9f2-5fe0-4883-a9e1-d6f9b87d5759
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 51bb5259-d181-49f6-8a26-9204c5d69547
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4adda01e-dcdf-4521-b0b6-372bc237ef18
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 7bae9b47-21cb-40b2-ad52-214f376cbf57
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ship Date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: b8ba5acf-2565-4ad7-bd63-ef4d486f4b88
+		summarizeBy: none
+		sourceColumn: Ship Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Order Quantity'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4dc73e7c-3f98-4c3a-a3a1-11ac1b729c07
+		summarizeBy: none
+		sourceColumn: Order Quantity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Sales Amount'
+		dataType: decimal
+		isHidden
+		lineageTag: 91183d1c-129b-44a0-b644-36cf89ec53cb
+		summarizeBy: none
+		sourceColumn: Sales Amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Tax Amount'
+		dataType: double
+		isHidden
+		lineageTag: 6403e5e6-364d-48eb-9bc8-a35e744a6337
+		summarizeBy: none
+		sourceColumn: Tax Amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Freight
+		dataType: double
+		lineageTag: c0563dbb-def1-41cb-b104-dd4a02b63549
+		summarizeBy: none
+		sourceColumn: Freight
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	partition 'Internet Sales-cd7d2e20-5bec-43be-a662-893abfa1518e' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents(excelfilename), null, true),
+				    pbi_InternetSales_Sheet = Source{[Item="pbi_InternetSales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(pbi_InternetSales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductKey", Int64.Type}, {"SalesTerritoryKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"OrderDate", type date}, {"ShipDate", type date}, {"OrderQuantity", Int64.Type}, {"SalesAmount", Currency.Type}, {"TaxAmt", type number}, {"Freight", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"OrderDate", "Order Date"}, {"ShipDate", "Ship Date"}, {"OrderQuantity", "Order Quantity"}, {"SalesAmount", "Sales Amount"}, {"TaxAmt", "Tax Amount"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
