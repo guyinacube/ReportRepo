@@ -145,17 +145,6 @@
       ]
     },
     {
-      "name": "Aquarium1442671919391",
-      "type": "CustomVisual",
-      "items": [
-        {
-          "name": "resources/Aquarium1442671919391.pbiviz.json",
-          "path": "Aquarium1442671919391.pbiviz.json",
-          "type": "CustomVisualMetadata"
-        }
-      ]
-    },
-    {
       "name": "PBI_CV_81BBAD08_3ADD_466C_8819_9FACA21A6B8F",
       "type": "CustomVisual",
       "items": [
