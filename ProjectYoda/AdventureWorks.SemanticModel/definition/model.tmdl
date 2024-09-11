@@ -6,7 +6,7 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBIDesktopVersion = 2.132.1053.0 (24.08)
+annotation PBIDesktopVersion = 2.133.601.0 (24.09)
 
 annotation PBI_QueryOrder = ["Subcategory","Geography","Customer","Employee","Internet Sales","Product","Product Category","Sales Territory","csvfilename","excelfilename","Data Refresh"]
 
