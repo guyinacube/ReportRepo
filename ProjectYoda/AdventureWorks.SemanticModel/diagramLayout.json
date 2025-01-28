@@ -46,18 +46,6 @@
         },
         {
           "location": {
-            "x": 0,
-            "y": 602.9
-          },
-          "nodeIndex": "Geography",
-          "size": {
-            "height": 269,
-            "width": 234
-          },
-          "zIndex": 9
-        },
-        {
-          "location": {
             "x": 559.65454545454554,
             "y": 60.109090909090909
           },

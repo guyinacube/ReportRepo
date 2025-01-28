@@ -49,11 +49,9 @@ table Product
 			    RELATED ( 'Subcategory'[Subcategory Name])
 			RETURN
 			    IF ( ISBLANK ( subcat ), "NA", subcat )
-		dataType: string
 		isHidden
 		lineageTag: e5d6f68f-bbcd-4041-b981-74c2074e60c2
 		summarizeBy: none
-		isDataTypeInferred
 
 		changedProperty = IsHidden
 
@@ -65,11 +63,9 @@ table Product
 			    RELATED ( 'Product Category'[Product Category] )
 			RETURN
 			    IF ( ISBLANK ( cat ), "NA", cat )
-		dataType: string
 		isHidden
 		lineageTag: d7e7c3e5-139c-4fac-b226-6665161d3f17
 		summarizeBy: none
-		isDataTypeInferred
 
 		changedProperty = IsHidden
 

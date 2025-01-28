@@ -6,16 +6,15 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBIDesktopVersion = 2.133.902.0 (24.09)
+annotation PBIDesktopVersion = 2.140.356.0 (25.02)+34a7eeacd0df8b5924a98d4049544cf31db4fd94
 
-annotation PBI_QueryOrder = ["Subcategory","Geography","Customer","Employee","Internet Sales","Product","Product Category","Sales Territory","csvfilename","excelfilename","Data Refresh"]
+annotation PBI_QueryOrder = ["Subcategory","Customer","Employee","Internet Sales","Product","Product Category","Sales Territory","csvfilename","excelfilename","Data Refresh"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","TMDLView_Desktop"]
 
 ref table Subcategory
-ref table Geography
 ref table Customer
 ref table Employee
 ref table 'Internet Sales'

@@ -2,10 +2,6 @@ relationship 162359b9-d67f-41e3-a597-af66dbecc9e3
 	fromColumn: Subcategory.ProductCategoryKey
 	toColumn: 'Product Category'.ProductCategoryKey
 
-relationship b9e2d177-e829-4097-adb8-18c27b9a033b
-	fromColumn: Customer.GeographyKey
-	toColumn: Geography.'Geography Key'
-
 relationship c8a2dd2b-6760-4838-a94f-beeba925697f
 	fromColumn: 'Internet Sales'.CustomerKey
 	toColumn: Customer.CustomerKey

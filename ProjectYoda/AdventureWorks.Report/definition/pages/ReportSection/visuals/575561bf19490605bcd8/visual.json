@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.1.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
   "name": "575561bf19490605bcd8",
   "position": {
     "x": 60.169971671388105,
@@ -13,23 +13,6 @@
     "visualType": "shapeMap",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Geography"
-                    }
-                  },
-                  "Property": "State Province"
-                }
-              },
-              "queryRef": "Geography.State Province"
-            }
-          ]
-        },
         "Value": {
           "projections": [
             {

@@ -3,36 +3,30 @@ table Calendar
 	dataCategory: Time
 
 	column Date
-		dataType: dateTime
 		isKey
 		formatString: General Date
 		lineageTag: de3dedce-ba09-4915-9b7b-5a608458a4cd
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [Date]
 
 		annotation SummarizationSetBy = Automatic
 
 	column Year
-		dataType: int64
 		formatString: 0
 		lineageTag: 29410f49-5e71-4433-87a5-dc4d9714866f
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [Year]
 
 		annotation SummarizationSetBy = Automatic
 
 	column MonthNumber
-		dataType: int64
 		isHidden
 		formatString: 0
 		lineageTag: 71a13675-2b20-471f-aa76-635e9334f27d
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [MonthNumber]
 
 		changedProperty = IsHidden
@@ -40,11 +34,9 @@ table Calendar
 		annotation SummarizationSetBy = Automatic
 
 	column Month
-		dataType: string
 		lineageTag: a8f745e3-fb63-4f41-8b83-42fa7b5c8699
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [Month]
 		sortByColumn: MonthNumber
 
@@ -53,11 +45,9 @@ table Calendar
 		annotation SummarizationSetBy = Automatic
 
 	column Quarter
-		dataType: string
 		lineageTag: 3d0699da-be98-4b99-9e61-6126b4cdf309
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [Quarter]
 		sortByColumn: QuaterNumber
 
@@ -66,12 +56,10 @@ table Calendar
 		annotation SummarizationSetBy = Automatic
 
 	column QuaterNumber
-		dataType: string
 		isHidden
 		lineageTag: 725bdb06-0134-4207-9b1c-c370636e109c
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [QuaterNumber]
 
 		changedProperty = IsHidden
@@ -79,12 +67,10 @@ table Calendar
 		annotation SummarizationSetBy = Automatic
 
 	column MonthYearNumber
-		dataType: string
 		isHidden
 		lineageTag: c6167160-8997-4eeb-a91a-a208b3ac336c
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [MonthYearNumber]
 
 		changedProperty = IsHidden
@@ -92,11 +78,9 @@ table Calendar
 		annotation SummarizationSetBy = Automatic
 
 	column 'Month Year'
-		dataType: string
 		lineageTag: f9954862-4190-4dce-b11e-8285dc091df3
 		summarizeBy: none
 		isNameInferred
-		isDataTypeInferred
 		sourceColumn: [Month Year]
 		sortByColumn: MonthYearNumber
 
